@@ -8,6 +8,7 @@ const MAX_WORKING_HRS_PER_MONTH = 100;
 
 let empHrs = 0;
 let totalWorkingDays = 0;
+let day = 0;
 let empDailyWageArray = new Array();
 
 while(empHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS_PER_MONTH)
@@ -23,8 +24,55 @@ while(empHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS_PER_
     totalWorkingDays++;
 }
 
-let empWage = CalculateWage(empHrs);
+//UC7-A - Calculate Total Monthly Wage using Array Function
+let empWage = empDailyWageArray.reduce(function(a,b){ return a+b },0);  
 console.log("Total Working Days : "+totalWorkingDays+"\nTotal working hours : "+empHrs+"\nDaily Employee Wage : "+empWage);
+
+//UC7-B - Day to Daily Wage Mapping
+console.log("Day to Wage Map : ");
+let dayToWageMap = empDailyWageArray.map(function(wage){return ++day +" : "+wage}); 
+console.log(dayToWageMap);
+
+//UC7-C - Days when employee worked full - time
+console.log("Full Working Days : ");
+let fullWorkingDays = dayToWageMap.filter(fullTimeWorkingDay);
+console.log(fullWorkingDays);
+
+//UC7-D - First Occurence Of Full-Time Work
+console.log("First Occurence Of Full Time Work : ");
+let firstFullTimeDay = dayToWageMap.find(fullTimeWorkingDay);
+console.log(firstFullTimeDay);
+
+//UC7-E - Check if every element of Full-Time Work array contains Full-Time Wage
+console.log("Checking Full - Time Work array....");
+let checkFullTimeArray = fullWorkingDays.every(fullTimeWorkingDay);
+console.log(checkFullTimeArray);
+
+//UC7-F - Check for Part-Time Work
+console.log("Checking for Part - Time Work....");
+let partTimeWork = dayToWageMap.some(partTimeWorkingDay);
+console.log(partTimeWork);
+
+//UC7-G - Total Days Worked Out Of Monthly-Working Days
+console.log("No of days employee worked Full-Time/Part-Time");
+let employeeWorkDays = empDailyWageArray.filter(function(wage){
+    if(wage != 0)
+        return wage;
+}).length;
+console.log(employeeWorkDays);
+
+
+//Checking Full- Time Work day...."
+function fullTimeWorkingDay(dayWage)
+{
+    return dayWage.includes("160");
+}
+
+//Checking Part- Time Work day...."
+function partTimeWorkingDay(dayWage)
+{
+    return dayWage.includes("80");
+}
 
 //Calculate Wage
 function CalculateWage(empHrs)
