@@ -10,6 +10,7 @@ let empHrs = 0;
 let totalWorkingDays = 0;
 let day = 0;
 let empDailyWageArray = new Array();
+let empDailyWageMap = new Map();
 
 while(empHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS_PER_MONTH)
 {
@@ -19,13 +20,17 @@ while(empHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS_PER_
     {
         break;
     }
-    empDailyWageArray.push(CalculateWage(dailyWorkingHour));
-    empHrs = empHrs + dailyWorkingHour;
     totalWorkingDays++;
+    empDailyWageArray.push(CalculateWage(dailyWorkingHour));
+    empDailyWageMap.set(totalWorkingDays,CalculateWage(dailyWorkingHour));
+    empHrs = empHrs + dailyWorkingHour;    
 }
 
-//UC7-A - Calculate Total Monthly Wage using Array Function
-let empWage = empDailyWageArray.reduce(function(a,b){ return a+b },0);  
+// //UC7-A - Calculate Total Monthly Wage using Array Function
+// let empWage = empDailyWageArray.reduce(function(a,b){ return a+b },0);  
+
+//UC8 - Calculate Total Monthly Wage using Map
+let empWage = Array.from(empDailyWageMap.values()).reduce(function(a,b){ return a+b },0);
 console.log("Total Working Days : "+totalWorkingDays+"\nTotal working hours : "+empHrs+"\nDaily Employee Wage : "+empWage);
 
 //UC7-B - Day to Daily Wage Mapping
