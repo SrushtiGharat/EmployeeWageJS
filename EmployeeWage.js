@@ -11,6 +11,10 @@ let totalWorkingDays = 0;
 let day = 0;
 let empDailyWageArray = new Array();
 let empDailyWageMap = new Map();
+let empDailyHourMap = new Map();
+let fullTimeDays = new Array();
+let partTimeDays = new Array();
+let noWorkDays = new Array();
 
 while(empHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS_PER_MONTH)
 {
@@ -23,15 +27,14 @@ while(empHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS_PER_
     totalWorkingDays++;
     empDailyWageArray.push(CalculateWage(dailyWorkingHour));
     empDailyWageMap.set(totalWorkingDays,CalculateWage(dailyWorkingHour));
+    empDailyHourMap.set(totalWorkingDays,dailyWorkingHour);
     empHrs = empHrs + dailyWorkingHour;    
 }
 
+console.log("UC - 7");
 // //UC7-A - Calculate Total Monthly Wage using Array Function
-// let empWage = empDailyWageArray.reduce(function(a,b){ return a+b },0);  
-
-//UC8 - Calculate Total Monthly Wage using Map
-let empWage = Array.from(empDailyWageMap.values()).reduce(function(a,b){ return a+b },0);
-console.log("Total Working Days : "+totalWorkingDays+"\nTotal working hours : "+empHrs+"\nDaily Employee Wage : "+empWage);
+let empWageUC7 = empDailyWageArray.reduce(function(a,b){ return a+b },0);
+console.log("Total Working Days : "+totalWorkingDays+"\nTotal working hours : "+empHrs+"\nDaily Employee Wage : "+empWageUC7);
 
 //UC7-B - Day to Daily Wage Mapping
 console.log("Day to Wage Map : ");
@@ -65,6 +68,29 @@ let employeeWorkDays = empDailyWageArray.filter(function(wage){
         return wage;
 }).length;
 console.log(employeeWorkDays);
+
+console.log("UC - 8 With day to wage map");
+//UC8 - Calculate Total Monthly Wage using Map
+let empWageUC8 = Array.from(empDailyWageMap.values()).reduce(function(a,b){ return a+b },0);
+console.log("Total Working Days : "+totalWorkingDays+"\nTotal working hours : "+empHrs+"\nDaily Employee Wage : "+empWageUC8);
+
+console.log("UC - 9 With arrow function");
+//UC9-A - Calculate Total working hours and Total salary using arrow functions
+let empHrsUC9 = Array.from(empDailyHourMap.values()).reduce((total,daily) => {return total+daily});
+let empWageUC9 = empDailyWageArray.filter(wage => wage > 0).reduce((total,daily) => {return total+daily});
+console.log("Total Working Days : "+totalWorkingDays+"\nTotal working hours : "+empHrsUC9+"\nDaily Employee Wage : "+empWageUC9);
+
+//UC9-B - Show Full-time,Part-time and No Working Days
+empDailyHourMap.forEach((value,key) => 
+{ 
+    if(value == 8) {fullTimeDays.push(key);}
+    else if(value == 4) {partTimeDays.push(key);}
+    else {noWorkDays.push(key);}
+}
+)
+console.log("Full-Time working days : "+fullTimeDays);
+console.log("Part-Time working days : "+partTimeDays);
+console.log("No working days : "+noWorkDays);
 
 
 //Checking Full- Time Work day...."
