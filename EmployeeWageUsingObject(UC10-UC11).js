@@ -32,14 +32,14 @@ while(totalEmpHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS
 }
 console.log(empDailyHrWageArray);
 
-//UC11-A - Calculate total wage and total hours worked
+//UC11-A/UC7-A - Calculate total wage and total hours worked
 totalEmpWage = empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyWage > 0).reduce((totalWage,wage) => totalWage = totalWage+wage.dailyWage,0);
 totalEmpHrs = empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyHr > 0).reduce((totalHr,hr) => totalHr = totalHr + hr.dailyHr,0);
 
 console.log("Total Employee Wage : "+totalEmpWage);
 console.log("Total Employee Hours"+totalEmpHrs);
 
-//UC11-B - Show full working days using foreach
+//UC11-B/UC7-C - Show full working days using foreach
 console.log("Full-Time Working Days : ");
 empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyHr == 8).forEach(
     dailyHrWage => console.log(dailyHrWage.day));
@@ -56,6 +56,19 @@ let noWorkDays = empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyHr =
     dailyHrWage => {return dailyHrWage.day});
 console.log(noWorkDays.toString());
 
+//UC7-B - Show Day With Daily Wage using map
+console.log("Day and Wage :");
+let dayWage = empDailyHrWageArray.map(dailyHrWage => {return dailyHrWage.day+" : "+dailyHrWage.dailyWage});
+console.log(dayWage);
+
+//UC7-D - First occurence of full-time wage
+console.log("First full - time work day : ");
+let firstFullTime = empDailyHrWageArray.find(dailyHrWage => dailyHrWage.dailyHr == 8);
+console.log(firstFullTime);
+
+//UC7-G - No of days employee worked
+let count = empDailyHrWageArray.length - noWorkDays.length;
+console.log("No of days employee worked : "+count);
 
 function GetWorkingHrs(empCheck)
 {
