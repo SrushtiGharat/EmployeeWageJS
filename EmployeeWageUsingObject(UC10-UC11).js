@@ -32,6 +32,31 @@ while(totalEmpHrs < MAX_WORKING_HRS_PER_MONTH && totalWorkingDays < WORKING_DAYS
 }
 console.log(empDailyHrWageArray);
 
+//UC11-A - Calculate total wage and total hours worked
+totalEmpWage = empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyWage > 0).reduce((totalWage,wage) => totalWage = totalWage+wage.dailyWage,0);
+totalEmpHrs = empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyHr > 0).reduce((totalHr,hr) => totalHr = totalHr + hr.dailyHr,0);
+
+console.log("Total Employee Wage : "+totalEmpWage);
+console.log("Total Employee Hours"+totalEmpHrs);
+
+//UC11-B - Show full working days using foreach
+console.log("Full-Time Working Days : ");
+empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyHr == 8).forEach(
+    dailyHrWage => console.log(dailyHrWage.day));
+
+//UC11-C - Show part working days using map
+console.log("Part-Time Working Days : ");
+let partTimeDays = empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyHr == 4).map(
+    dailyHrWage => {return dailyHrWage.day});
+console.log(partTimeDays.toString());
+
+//UC11-D - No working days
+console.log("No Working Days : ");
+let noWorkDays = empDailyHrWageArray.filter(dailyHrWage => dailyHrWage.dailyHr == 0).map(
+    dailyHrWage => {return dailyHrWage.day});
+console.log(noWorkDays.toString());
+
+
 function GetWorkingHrs(empCheck)
 {
     switch(empCheck)
